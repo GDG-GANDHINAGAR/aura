@@ -6,15 +6,22 @@
                <p class="google-font" style="font-size:110%">Google Developer Groups (GDGs) are for developers who are interested in Google's developer technology.</p>
 
                <p class="google-font" style="font-size:110%">About different Google technologies</p>
-               <img src="@/assets/img/svg/angular.svg" width="30vh" alt="" srcset=""> &nbsp;&nbsp;&nbsp;
-                <img src="@/assets/img/svg/gcp.svg" width="30vh" alt="" srcset="">&nbsp;&nbsp;&nbsp;
-                <img src="@/assets/img/svg/android.svg" width="30vh" alt="" srcset="">&nbsp;&nbsp;&nbsp;
-                <img src="@/assets/img/svg/aog.png" width="30vh" alt="" srcset="">&nbsp;&nbsp;&nbsp;
-                <img src="@/assets/img/svg/firebase.svg" width="30vh" alt="" srcset="">&nbsp;&nbsp;&nbsp;
-                <img src="@/assets/img/svg/tf.svg" width="30vh" alt="" srcset="">
+
+                <span v-for="(item,i) in whatWeDoData" :key="i">
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }" >
+                            <a :href="item.link" target="_blank" flat class="ma-0">
+                                <img :src="getImgUrl(item.image)" width="30vh" alt="" srcset="" dark v-on="on">
+                            </a> 
+                            &nbsp;&nbsp;&nbsp;
+                        </template>
+                        <span>{{item.TechName}}</span>
+                    </v-tooltip>
+                </span>
+                
                 <br><br>
 
-                <v-btn :href="chapterDetails.GDGProgramWebsite" outline target="_blank" round color="cyan" style="text-transform: capitalize;border-radius:7px;text-transform: capitalize;" flat  class="ml-0 google-font hidden-md-and-down" dark>Learn More</v-btn>
+                <v-btn :href="chapterDetails.GDGProgramWebsite" outline target="_blank" round color="cyan" style="text-transform: capitalize;border-radius:5px;text-transform: capitalize;" flat  class="ml-0 google-font hidden-md-and-down" dark>Learn More</v-btn>
 
             </v-flex> 
             <v-flex xs12 md9 lg9 class="">
@@ -52,12 +59,23 @@
 </template>
 
 <script>
+import whatWeDoData from '@/assets/data/whatWeDoComponentData.json'
 import ChapterDetails from '@/assets/data/chapterDetails.json'
 export default {
     data() {
         return {
-            chapterDetails: ChapterDetails
+            chapterDetails: ChapterDetails,
+            whatWeDoData: whatWeDoData
         }
     },
+    methods:{
+        getImgUrl(url) {
+            if(url.length>0){
+                return require('@/assets/img/what-we-do/'+url)
+            }else{
+                return require('@/assets/img/what-we-do/notFound.png')
+            }
+        },
+    }
 }
 </script>
